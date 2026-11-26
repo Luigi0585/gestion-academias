@@ -1,15 +1,17 @@
 <?php
 
+use App\Http\Controllers\AcademyController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-// Rutas públicas (no requieren token)
+// Rutas públicas (no requieren token).
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// Rutas protegidas (requieren cabecera Authorization: Bearer <tu_token>)
+// Rutas protegidas (requieren Token de Sanctum).
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     
-    // Aquí dentro irán después tus rutas protegidas de academies, courses y students
+    // CRUD completo de Academias protegido por autenticación
+    Route::apiResource('academies', AcademyController::class);
 });
